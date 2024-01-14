@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="./styles/custom.css">
+    <title>Document</title>
+</head>
+<body>
+    
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container">
+            <a class="navbar-brand" href="#">
+              <img src="логотип.png" alt="Логотип"> Название
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Личный кабинет</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+
+      <section class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <img src="картинка.jpg" class="img-fluid" alt="Интро картинка">
+          </div>
+          <div class="col-md-6">
+            <p>Слоган слоган слоган</p>
+          </div>
+        </div>
+      </section>
+
+
+    <section class="container py-5" >
+        <div class="row"><h1 class="text-center fs-1">Почему именно мы!?</h1></div>
+        
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item fs-2 mt-5" > Опытные гиды с глубокими знаниями о Москвее</li>
+    
+     
+            <li class="list-group-item fs-2 text-end mt-3"> Разнообразные туристические маршруты по достопримечательностям города</li>
+      
+   
+            <li class="list-group-item fs-2 mt-3"> Гибкий график и возможность выбора времени и длительности экскурсии</li>
+    
+    
+            <li class="list-group-item fs-2 text-end mt-3"> Отличный сервис и качественное обслуживание</li>
+        </ul>
+          
+    </section>
+
+
+    <main class="container py-5">
+        <div class="row"><h1 class="text-center fs-1 mb-5">Список пешеходных маршрутов</h1></div>
+        <div class="row mb-5">
+            <div class="col ">
+                <input type="text" class="form-control w-2" placeholder="Поиск...">
+            
+
+            </div>
+
+            <div class="col">
+                <button class="btn btn-secondary">Поиск</button>
+            </div>
+            <div class="col">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Параметр поиска</option>
+                    <option value="1">Название</option>
+                    <option value="2">Описание</option>
+                    <option value="3">Основные объекты</option>
+                  </select>
+            </div>
+        </div>
+        <div class="table">
+          <div class="row border bg-secondary ">
+            <div class="col-3 "><h4 class="text-center text-white bg-transparent">Название</h4></div>
+            <div class="col-3"><h4 class="text-center text-white bg-transparent">Описание</h4></div>
+            <div class="col-3"><h4 class="text-center text-white bg-transparent">Основные объекты</h4></div>
+            <div class="col-3"><h4 class="text-center text-white bg-transparent"> </div>
+          </div>
+          <div class="row border  ">
+            <div class="col border d-flex align-items-center justify-content-center"><p class=" p-0 text-center fs-5">1</></div>
+            <div class="col border d-flex align-items-center justify-content-centerr"><p class=" text-center fs-5">lorem,</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5">Lor</div>
+            <div class="col border d-flex align-items-center justify-content-center "><button class="btn btn-secondary" >Выбрать</button></div>
+          </div>
+
+        </div>
+        <div class="d-flex  justify-content-between">
+          <button class="btn btn-secondary" >Назад</button>
+          <button class="btn btn-secondary" >Дальше</button>
+        </div>
+    </main>
+    
+
+
+<script  src="./app/app.js"></script>
+
+</body>
+</html>
