@@ -6,6 +6,7 @@ const GET_ALL_ORDERS_URL = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/ap
 const routesTableEl = document.querySelector('.table-content')
 const previousRoutesPageBtn = document.querySelector('#previous-routes')
 const nextRoutesPageBtn = document.querySelector('#next-routes')
+const searchRoutInput = document.querySelector('#search-rout-inp')
 let currentPage=0
 
 
@@ -27,11 +28,7 @@ const paginationButtunHandler = (routes)=>{
     }
 } 
 
-
-const renderTable = async(page)=>{
-    const routes = await getAllRouts()
-    paginationButtunHandler(routes)
-    
+const renderTableWithPagination = (routes, page)=>{
     for(let i=page ; i<page+3 ; i++){
         routesTableEl.innerHTML+=`
         <div class="row border  ">
@@ -43,17 +40,54 @@ const renderTable = async(page)=>{
         `
     }
 }
+const renderTable = (routes)=>{
+    routesTableEl.innerHTML= ''
+    for(let i=0 ; i<routes.length ; i++){
+        routesTableEl.innerHTML+=`
+        <div class="row border  ">
+            <div class="col border d-flex align-items-center justify-content-center"><p class=" p-0 text-center fs-5">${routes[i].name}</></div>
+            <div class="col border d-flex align-items-center justify-content-center"><p class=" text-center fs-5">${routes[i].description}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5">${routes[i].mainObject}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><button class="btn btn-secondary" >Выбрать</button></div>
+            </div>
+        `
+    }
+}
 
-renderTable(currentPage)
+
+const loadTable = async(page)=>{
+    const routes = await getAllRouts()
+    paginationButtunHandler(routes)
+
+    searchRoutInput.addEventListener('input', (e)=>{
+        if(e.target.value!=''){
+            renderTable(findRoutsByName(routes, e.target.value))
+        }else{
+          renderTableWithPagination(routes, page)
+
+        }
+        
+    })
+    renderTableWithPagination(routes, page)
+
+    
+}
+
+const findRoutsByName = (routes , name)=>{
+    return routes.filter(el=>el.name ===name)
+}
+
+
+loadTable(currentPage)
 
 nextRoutesPageBtn.addEventListener('click', (e)=>{
         currentPage+=3
         routesTableEl.innerHTML= ''
-        renderTable(currentPage)
+        loadTable(currentPage)
 })
 previousRoutesPageBtn.addEventListener('click', ()=>{
-        currentPage+=3
+        currentPage-=3
         routesTableEl.innerHTML= ''
-        renderTable(currentPage)
+        loadTable(currentPage)
 })
 
