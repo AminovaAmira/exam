@@ -12,6 +12,10 @@ const selectRout = document.querySelector('#select-rout')
 const selectLanguage = document.querySelector('#select-language')
 const guidesRouteNameEl = document.getElementById('guide-rout-name')
 const guideInfoEl = document.querySelector('.guide-info')
+const expFromEl = document.getElementById('exp-from')
+const expToEl = document.getElementById('exp-to')
+const expFindBtn = document.getElementById('exp-find-btn')
+const closeModalBtn = document.getElementById('close-modal-btn')
 let currentPage=0
 
 
@@ -81,6 +85,20 @@ const showGuideInfo = async ()=>{
                 renderGuidesTable(guides)    
             }
         })
+
+
+        
+        expFindBtn.addEventListener('click', (e)=>{
+            if(expFromEl.value!='' || expToEl.value !=''){
+                renderGuidesTable(findGuideByExperience(guides,expFromEl.value, expToEl.value))
+            }else{
+                renderGuidesTable(guides)  
+
+            }
+            
+        })
+
+        selectGuideBtnHandler(document.querySelectorAll('.select-guide-btn'))
     }
 }
     
@@ -136,7 +154,7 @@ const renderGuidesTable = (guides)=>{
             <div class="col border d-flex align-items-center justify-content-center"><p class=" text-center fs-5">${guides[i].language}</></div>
             <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5">${guides[i].workExperience}</></div>
             <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5">${guides[i].pricePerHour}</></div>
-            <div class="col border d-flex align-items-center justify-content-center "><button class="btn btn-secondary select-rout-btn" >Выбрать</button></div>
+            <div class="col border d-flex align-items-center justify-content-center "><button class="btn btn-secondary select-guide-btn" >Выбрать</button></div>
             </div>
         `
     }
@@ -150,6 +168,10 @@ const findRoutsByName = (routes , name)=>{
 }
 const findRoutsByObject = (routes , object)=>{
     return routes.filter(el=>el.mainObject.slice(0,60) ===object.slice(0,-3))
+}
+
+const findGuideByExperience = (guides , expFrom , expTo)=>{
+    return guides.filter(el=> el.workExperience>=expFrom && el.workExperience<=expTo)
 }
 
 const findGuideByLanguage = (guides , language)=>{
@@ -184,6 +206,36 @@ const selectRoutBtnHandler= (btns)=>{
         })
     });
 }
+const selectGuideBtnHandler= (btns)=>{
+    btns.forEach(btn => {
+        btn.addEventListener('click', (e)=>{
+            // document.textContent
+            const row = e.target.parentNode.parentNode
+            // const routId = row.id.split('_')[0]
+            const guideId = row.id.split('_')[1]
+            console.log()
+            const guideFio = row.firstElementChild.firstElementChild.textContent
+            const guidePrice = row.childNodes[7].firstElementChild.textContent
+            localStorage.setItem('selectedGuideFio', guideFio)
+            localStorage.setItem('selectedGuidePrice', guidePrice)
+
+
+
+            showModal()
+           
+        })
+    });
+}
+
+
+const showModal = ()=>{
+    document.querySelector('#myModal').style.display = 'block'
+    document.querySelector('#myModal').classList.add('show')
+    document.querySelector('#route').value = localStorage.getItem('selectedRoutName')
+    document.querySelector('#guide').value = localStorage.getItem('selectedGuideFio')
+
+
+}
 
 
 
@@ -211,7 +263,10 @@ previousRoutesPageBtn.addEventListener('click', ()=>{
         routesTableEl.innerHTML= ''
         main(currentPage)
 })
-
+closeModalBtn.addEventListener('click',()=>{
+    document.querySelector('#myModal').style.display = 'none'
+    document.querySelector('#myModal').classList.remove('show')
+})
 
 
 main(currentPage)

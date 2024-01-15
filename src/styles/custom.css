@@ -2,3 +2,24 @@
 body {
     font-family:system-ui, -apple-system, ; /* Пример замены шрифта на Arial */
   }
+
+.modal-open{
+  overflow: hidden;
+}
+
+
+.bg-yallow{
+  background-color: #FFDB8B;
+}
+
+.bg-purpur{
+  background-color: #ed90dd;
+}
+.yallow{
+  color: #FF4D00,;
+}
+
+.purpur{
+  color: #ed90dd;
+}
+

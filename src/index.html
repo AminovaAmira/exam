@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="./styles/custom.css">
     <title>Document</title>
 </head>
-<body>
+<body >
     
-    <header>
+    <header >
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container">
             <a class="navbar-brand" href="#">
@@ -43,26 +43,26 @@
 
 
     <section class="container py-5" >
-        <div class="row"><h1 class="text-center fs-1">Почему именно мы!?</h1></div>
+        <div class="row"><h1 class="text-center fs-1 purpur">Почему именно мы!?</h1></div>
         
         <ul class="list-group list-group-flush">
-            <li class="list-group-item fs-2 mt-5" > Опытные гиды с глубокими знаниями о Москвее</li>
+            <li class="list-group-item fs-2 mt-5 yallow" > Опытные гиды с глубокими знаниями о Москвее</li>
     
      
-            <li class="list-group-item fs-2 text-end mt-3"> Разнообразные туристические маршруты по достопримечательностям города</li>
+            <li class="list-group-item fs-2 text-end mt-3 yallow"> Разнообразные туристические маршруты по достопримечательностям города</li>
       
    
-            <li class="list-group-item fs-2 mt-3"> Гибкий график и возможность выбора времени и длительности экскурсии</li>
+            <li class="list-group-item fs-2 mt-3 yallow"> Гибкий график и возможность выбора времени и длительности экскурсии</li>
     
     
-            <li class="list-group-item fs-2 text-end mt-3"> Отличный сервис и качественное обслуживание</li>
+            <li class="list-group-item fs-2 text-end mt-3 yallow"> Отличный сервис и качественное обслуживание</li>
         </ul>
           
     </section>
 
 
     <main class="container py-5">
-        <div class="row"><h1 class="text-center fs-1 mb-5">Список пешеходных маршрутов</h1></div>
+        <div class="row"><h1 class="text-center fs-1 mb-5 purpur">Список пешеходных маршрутов</h1></div>
         <div class="row mb-5">
             <div class="col ">
                 <input  id="search-rout-inp" type="text" class="form-control w-2" placeholder="Поиск...">
@@ -96,7 +96,7 @@
     </main>
 
     <div class="container guide-info d-none">
-      <div class="row"><h1 class="text-center fs-1 mb-5" id="guide-rout-name">Доступные гиды по маршруту: </h1></div>
+      <div class="row"><h1 class="text-center fs-1 mb-5 purpur" id="guide-rout-name">Доступные гиды по маршруту: </h1></div>
         <div class="row mb-5">
 
             <div class="col-3">
@@ -105,10 +105,12 @@
                   </select>
             </div>
 
-            <div class="col-3  d-flex justify-content-between ">
+            <div class="col-4  d-flex justify-content-between ">
                 <label class="align-self-center" for="">Опыт работы:</label>
-                <input  id="search-rout-inp" type="text" class="form-control w-25" placeholder="от">
-                <input  id="search-rout-inp" type="text" class="form-control w-25" placeholder="до">
+                <input  id="exp-from" type="text" class="form-control w-25" placeholder="от">
+                <input  id="exp-to" type="text" class="form-control w-25" placeholder="до">
+                 <button class="btn btn-secondary " id="exp-find-btn">Найти</button>
+
             
 
             </div>
@@ -118,11 +120,11 @@
         </div>
         <div class="guide-table">
           <div class="row border bg-secondary ">
-            <div class="col "><h4 class="text-center text-white bg-transparent">ФИО</h4></div>
-            <div class="col "><h4 class="text-center text-white bg-transparent">Языки</h4></div>
-            <div class="col "><h4 class="text-center text-white bg-transparent">Опыт работы</h4></div>
-            <div class="col"><h4 class="text-center text-white bg-transparent">Стоимость услуг в час</h4></div>
-            <div class="col"><h4 class="text-center text-white bg-transparent"> </div>
+            <div class="col align-self-center "><h4 class="text-center  text-white bg-transparent">ФИО</h4></div>
+            <div class="col align-self-center "><h4 class="text-center text-white bg-transparent">Языки</h4></div>
+            <div class="col align-self-center "><h4 class="text-center text-white bg-transparent">Опыт работы</h4></div>
+            <div class="col align-self-center"><h4 class="text-center text-white bg-transparent">Стоимость услуг в час</h4></div>
+            <div class="col align-self-center"><h4 class="text-center text-white bg-transparent"> </div>
            
           </div>
           <div class="guide-table-content">
@@ -131,6 +133,68 @@
 
         </div>
     </div>
+
+  
+  <div class="modal fade show" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Заказ экскурсии</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="route">Название выбранного маршрута:</label>
+              <input type="text" class="form-control" id="route" readonly>
+            </div>
+            <div class="form-group">
+              <label for="guide">ФИО выбранного гида:</label>
+              <input type="text" class="form-control" id="guide" readonly>
+            </div>
+            <div class="form-group">
+              <label for="date">Дата экскурсии:</label>
+              <input type="date" class="form-control" id="date">
+            </div>
+            <div class="form-group">
+              <label for="time">Время начала экскурсии:</label>
+              <input type="time" class="form-control" id="time">
+            </div>
+            <div class="form-group">
+              <label for="duration">Длительность экскурсии:</label>
+              <select class="form-control" id="duration">
+                <option value="1">1 час</option>
+                <option value="2">2 часа</option>
+                <option value="3">3 часа</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="groupSize">Количество человек в группе:</label>
+              <input type="number" class="form-control" id="groupSize">
+            </div>
+            <div class="form-group">
+              <label>Дополнительные опции заказа:</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="option1">
+                <label class="form-check-label" for="option1">Легкие закуски и горячие напитки во время экскурсии.</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="option2">
+                <label class="form-check-label" for="option2">Сопровождение сурдопереводчика.</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="totalCost">Итоговая стоимость:</label>
+              <input type="text" class="form-control" id="totalCost" readonly>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Отправить</button>
+          <button type="button" class="btn btn-secondary" id="close-modal-btn" data-dismiss="modal">Отменить</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
     
     
