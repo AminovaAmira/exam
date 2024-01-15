@@ -34,6 +34,7 @@ const main = async(page)=>{
     })
     selectRout.addEventListener('change',(e)=>{
         if( e.target.value!='Основные объекты'){
+            console.log(findRoutsByObject(routes, e.target.value))
             renderRoutTable(findRoutsByObject(routes, e.target.value))
         }else{
           renderTableWithPagination(routes, page)
@@ -62,6 +63,7 @@ const main = async(page)=>{
 }
 
 const getGuidesByRoutId = async(routId)=>{
+
     const response = await fetch(`http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes/${routId}/guides?api_key=${API_KEY}&api_key=${API_KEY}`)
     const guides = await response.json()
     return guides
@@ -124,8 +126,8 @@ const renderTableWithPagination = (routes, page)=>{
         routesTableEl.innerHTML+=`
         <div id='rout_${routes[i].id}' class="row border  ">
             <div class="col border d-flex align-items-center justify-content-center"><p class=" p-0 text-center fs-5">${routes[i].name}</></div>
-            <div class="col border d-flex align-items-center justify-content-center"><p class=" text-center fs-5">${routes[i].description}</></div>
-            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5">${routes[i].mainObject}</></div>
+            <div class="col border d-flex align-items-center justify-content-center"><p class="  text-center fs-5" title="${routes[i].description}">${routes[i].description.slice(0,200)}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5" title="${routes[i].mainObject}">${routes[i].mainObject.slice(0,60)}</></div>
             <div class="col border d-flex align-items-center justify-content-center "><button class="btn btn-secondary select-rout-btn" >Выбрать</button></div>
             </div>
         `
@@ -135,10 +137,10 @@ const renderRoutTable = (routes)=>{
     routesTableEl.innerHTML= ''
     for(let i=0 ; i<routes.length ; i++){
         routesTableEl.innerHTML+=`
-        <div id='rout_${routes[i].id} class="row border  ">
+        <div id='rout_${routes[i].id}' class="row border  ">
             <div class="col border d-flex align-items-center justify-content-center"><p class=" p-0 text-center fs-5">${routes[i].name}</></div>
-            <div class="col border d-flex align-items-center justify-content-center"><p class=" text-center fs-5">${routes[i].description}</></div>
-            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5">${routes[i].mainObject}</></div>
+            <div class="col border d-flex align-items-center justify-content-center"><p class=" text-center fs-5"title="${routes[i].description}">${routes[i].description.slice(0,200)}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5" title="${routes[i].mainObject}">${routes[i].mainObject.slice(0,60)}</></div>
             <div class="col border d-flex align-items-center justify-content-center "><button class="btn btn-secondary select-rout-btn" >Выбрать</button></div>
             </div>
         `
@@ -167,6 +169,7 @@ const findRoutsByName = (routes , name)=>{
     return routes.filter(el=>el.name ===name)
 }
 const findRoutsByObject = (routes , object)=>{
+    // console.log(routes[0].mainObject.slice(0,60) ===object.slice(0,-3) )
     return routes.filter(el=>el.mainObject.slice(0,60) ===object.slice(0,-3))
 }
 
@@ -213,10 +216,10 @@ const selectGuideBtnHandler= (btns)=>{
             const row = e.target.parentNode.parentNode
             // const routId = row.id.split('_')[0]
             const guideId = row.id.split('_')[1]
-            console.log()
             const guideFio = row.firstElementChild.firstElementChild.textContent
             const guidePrice = row.childNodes[7].firstElementChild.textContent
             localStorage.setItem('selectedGuideFio', guideFio)
+            localStorage.setItem('selectedGuideId', guideId)
             localStorage.setItem('selectedGuidePrice', guidePrice)
 
 
@@ -236,7 +239,6 @@ const showModal = ()=>{
     document.querySelector('#guide').value = localStorage.getItem('selectedGuideFio')
     document.querySelector('#groupSize').addEventListener('input', (e)=>{
         if(Number(e.target.value)>10){
-                console.log(123)
 
             document.querySelector('#option2').disabled= true
         } 
@@ -255,9 +257,59 @@ const showModal = ()=>{
         const option1 = document.querySelector('#option1').checked 
         const option2 = document.querySelector('#option2').checked 
 
-        console.log(option1)
+        const totalPrice = calcPrice(guidePrice,hours,numberOfVisitors,startTime,date, option1 , option2)
 
-        document.querySelector('#totalCost').value=calcPrice(guidePrice,hours,numberOfVisitors,startTime,date, option1 , option2)
+        document.querySelector('#totalCost').value=totalPrice
+        
+        if(parseInt(startTime.split(':')[0], 10) <9 ||parseInt(startTime.split(':')[0]<23 )){
+            alert("Время с 9 до 23")
+            document.querySelector('#time').value = ''
+        }
+        console.log(new Date(date).getDate())
+        console.log(new Date().getDate())
+        if(new Date().getDate() == new Date(date).getDate()){
+            alerе('Выберите следующую дату!')
+            document.querySelector('#date').value = ''
+        }
+
+        if(guidePrice&&date&& numberOfVisitors&& startTime&&hours && totalPrice){
+            document.querySelector('#send').disabled = false
+        }else{
+            alert('Заполнены не все поля!')
+        }
+
+        document.querySelector('#send').addEventListener('click', ()=>{
+            var details = {
+                'guide_id': localStorage.getItem('selectedGuideId'),
+                'route_id': localStorage.getItem('selectedRoutId').split('_')[1],
+                'date': date,
+                'time': startTime,
+                'duration': hours,
+                'persons': numberOfVisitors,
+                'price':totalPrice,
+                'optionFirst': option1?1:0,
+                'optionSecond': option2?1:0,
+            };
+            
+            var formBody = [];
+            for (var property in details) {
+              var encodedKey = encodeURIComponent(property);
+              var encodedValue = encodeURIComponent(details[property]);
+              formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            
+            fetch('http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders?api_key=61cb8271-7f9f-4e29-b714-f10e5f73fc86', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+              },
+              body: formBody
+            }).then(res=>{
+                alert("Заявка создана!")
+            })
+        })
+
     })
 
 }
@@ -272,8 +324,9 @@ const showSelectedRout = (id)=>{
             el.classList.remove('bg-body-tertiary')
         }
     })
-    document.getElementById(`${id}`).classList.add('bg-body-tertiary')
     showGuideInfo()
+
+    document.getElementById(`${id}`).classList.add('bg-body-tertiary')
 
 }
 

@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="./styles/custom.css">
-    <title>Document</title>
+    <title>stepUp</title>
 </head>
 <body >
     
     <header >
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container">
-            <a class="navbar-brand" href="#">
-              <img src="логотип.png" alt="Логотип"> Название
+            <a class="navbar-brand fs-1" href="#">
+              <img width="150px" src="./assets/logo.png" alt="Логотип"> stepUp
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -31,12 +31,12 @@
 
 
       <section class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <img src="картинка.jpg" class="img-fluid" alt="Интро картинка">
+        <div class="row mt-5">
+          <div class="col-md-8">
+            <img src="./assets/moscow.jpg" class="img-fluid rounded " alt="Интро картинка">
           </div>
-          <div class="col-md-6">
-            <p>Слоган слоган слоган</p>
+          <div class="col-md-4">
+            <p class="fs-1">Открой Москву шаг за шагом с нами! <br> Поиск маршрутов и услуги гида в одном месте.</p>
           </div>
         </div>
       </section>
@@ -95,7 +95,7 @@
         </div>
     </main>
 
-    <div class="container guide-info d-none">
+    <div class="container guide-info d-none mb-5">
       <div class="row"><h1 class="text-center fs-1 mb-5 purpur" id="guide-rout-name">Доступные гиды по маршруту: </h1></div>
         <div class="row mb-5">
 
@@ -191,13 +191,21 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" id="close-modal-btn" data-dismiss="modal">Отменить</button>
           <button type="button" class="btn bg-purpur" id="calc">Рассчитать</button>
-          <button type="button" class="btn bg-purpur" id="send">Отправить</button>
+          <button type="button" class="btn bg-purpur" disabled="true" id="send">Отправить</button>
         </div>
       </div>
     </div>
   </div>
 
     
+
+  <footer class="footer">
+    <div class="container d-flex justify-content-between">
+      <p>&copy; 2024 stepUp(шагВперёд) </p>
+      <p>119049 г. Москва, ул. Донская, д. 8 стр. 1</p>
+    </div>
+  </footer>
+
     
 
 
