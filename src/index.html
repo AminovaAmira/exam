@@ -72,7 +72,7 @@
 
            
             <div class="col">
-                <select class="form-select" aria-label="Default select example">
+                <select class="form-select" id="select-rout" aria-label="Default select example">
                     <option selected>Основные объекты</option>
                   </select>
             </div>
@@ -94,6 +94,45 @@
           <button class="btn btn-secondary" id="next-routes">Дальше</button>
         </div>
     </main>
+
+    <div class="container guide-info d-none">
+      <div class="row"><h1 class="text-center fs-1 mb-5" id="guide-rout-name">Доступные гиды по маршруту: </h1></div>
+        <div class="row mb-5">
+
+            <div class="col-3">
+                <select class="form-select" id="select-language" aria-label="Default select example">
+                    <option selected>Язык экскурсии</option>
+                  </select>
+            </div>
+
+            <div class="col-3  d-flex justify-content-between ">
+                <label class="align-self-center" for="">Опыт работы:</label>
+                <input  id="search-rout-inp" type="text" class="form-control w-25" placeholder="от">
+                <input  id="search-rout-inp" type="text" class="form-control w-25" placeholder="до">
+            
+
+            </div>
+
+           
+          
+        </div>
+        <div class="guide-table">
+          <div class="row border bg-secondary ">
+            <div class="col "><h4 class="text-center text-white bg-transparent">ФИО</h4></div>
+            <div class="col "><h4 class="text-center text-white bg-transparent">Языки</h4></div>
+            <div class="col "><h4 class="text-center text-white bg-transparent">Опыт работы</h4></div>
+            <div class="col"><h4 class="text-center text-white bg-transparent">Стоимость услуг в час</h4></div>
+            <div class="col"><h4 class="text-center text-white bg-transparent"> </div>
+           
+          </div>
+          <div class="guide-table-content">
+              
+          </div>
+
+        </div>
+    </div>
+
+    
     
 
 
