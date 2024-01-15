@@ -228,12 +228,37 @@ const selectGuideBtnHandler= (btns)=>{
 }
 
 
+
 const showModal = ()=>{
     document.querySelector('#myModal').style.display = 'block'
     document.querySelector('#myModal').classList.add('show')
     document.querySelector('#route').value = localStorage.getItem('selectedRoutName')
     document.querySelector('#guide').value = localStorage.getItem('selectedGuideFio')
+    document.querySelector('#groupSize').addEventListener('input', (e)=>{
+        if(Number(e.target.value)>10){
+                console.log(123)
 
+            document.querySelector('#option2').disabled= true
+        } 
+        if(Number(e.target.value)<=10){
+            document.querySelector('#option2').disabled= false
+        }
+    })
+
+
+    document.querySelector('#calc').addEventListener('click', ()=>{
+        const guidePrice = localStorage.getItem('selectedGuidePrice')
+        const date = document.querySelector('#date').value
+        const numberOfVisitors = document.querySelector('#groupSize').value
+        const startTime = document.querySelector('#time').value
+        const hours = document.querySelector('#duration').value
+        const option1 = document.querySelector('#option1').checked 
+        const option2 = document.querySelector('#option2').checked 
+
+        console.log(option1)
+
+        document.querySelector('#totalCost').value=calcPrice(guidePrice,hours,numberOfVisitors,startTime,date, option1 , option2)
+    })
 
 }
 
@@ -251,6 +276,67 @@ const showSelectedRout = (id)=>{
     showGuideInfo()
 
 }
+
+
+
+const calcPrice = (guidePrice, hours , numberOfVisitors, startTime, date, option1, option2)=>{
+    const isWeekend = isWeekendToday(date)?1.5:1
+    const morningCoast = isMorning(startTime)?400:0
+    const eveningCoast = isEvening(startTime)?1000:0
+    const visitorsCoast = increaseInNumbersOfVisitors(numberOfVisitors)
+    
+    let total = (guidePrice*hours*isWeekend)+morningCoast+eveningCoast+visitorsCoast
+
+    if(option2){
+        if(numberOfVisitors<5){
+             total*=1.15
+        }
+        if(numberOfVisitors>=5 && numberOfVisitors<=10){
+             total*=1.25
+        }
+    }
+
+
+
+    if(option1) total+=numberOfVisitors*1000
+    return total.toFixed()
+}
+
+function isWeekendToday(date) {
+    let today = new Date(date);
+    let dayOfWeek = today.getDay(); 
+  
+    return (dayOfWeek === 0 || dayOfWeek === 6); 
+  }
+
+function isMorning(time){
+   let hour = parseInt(time.split(':')[0], 10) 
+   if(hour>=9 && hour<=12){
+    return true
+   }
+   return false 
+}
+
+function isEvening(time){
+    let hour = parseInt(time.split(':')[0], 10) 
+    if(hour>=20 && hour<=23){
+     return true
+    }
+    return false 
+ }
+
+function increaseInNumbersOfVisitors(numberOfVisitors){
+    if(numberOfVisitors<5){
+        return 0
+    }
+    if(numberOfVisitors>=5 && numberOfVisitors<10){
+        return 1000
+    }
+    if(numberOfVisitors>=10 && numberOfVisitors<=20){
+        return 1500
+    }
+}
+
 
 
 nextRoutesPageBtn.addEventListener('click', (e)=>{
