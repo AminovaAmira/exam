@@ -16,7 +16,9 @@ const expFromEl = document.getElementById('exp-from')
 const expToEl = document.getElementById('exp-to')
 const expFindBtn = document.getElementById('exp-find-btn')
 const closeModalBtn = document.getElementById('close-modal-btn')
-let currentPage=0
+const pageNumberEl = document.querySelector('#pageNum')
+// let currentPage=  0
+let currentPage= localStorage.getItem('currentPage') || 0
 
 
 const main = async(page)=>{
@@ -41,9 +43,9 @@ const main = async(page)=>{
 
         }
     })
-
+    pageNumberEl.textContent = 1+currentPage/3
     
-
+    
 
     renderRoutSelectOptions(routes)
     renderTableWithPagination(routes, page)
@@ -92,9 +94,11 @@ const showGuideInfo = async ()=>{
         
         expFindBtn.addEventListener('click', (e)=>{
             if(expFromEl.value!='' || expToEl.value !=''){
-                renderGuidesTable(findGuideByExperience(guides,expFromEl.value, expToEl.value))
+                renderGuidesTable(findGuideByExperience(guides,expFromEl.value || 0, expToEl.value||100))
+
             }else{
                 renderGuidesTable(guides)  
+
 
             }
             
@@ -121,8 +125,9 @@ const paginationButtunHandler = (routes)=>{
 
 const renderTableWithPagination = (routes, page)=>{
     routesTableEl.innerHTML= ''
-
-    for(let i=page ; i<page+3 ; i++){
+    console.log(page)
+    for(let i=+page ; i<+page+3 ; i++){
+        console.log(page)
         routesTableEl.innerHTML+=`
         <div id='rout_${routes[i].id}' class="row border  ">
             <div class="col border d-flex align-items-center justify-content-center"><p class=" p-0 text-center fs-5">${routes[i].name}</></div>
@@ -132,8 +137,11 @@ const renderTableWithPagination = (routes, page)=>{
             </div>
         `
     }
+    selectRoutBtnHandler(document.querySelectorAll('.select-rout-btn'))
+
 }
 const renderRoutTable = (routes)=>{
+   
     routesTableEl.innerHTML= ''
     for(let i=0 ; i<routes.length ; i++){
         routesTableEl.innerHTML+=`
@@ -145,6 +153,8 @@ const renderRoutTable = (routes)=>{
             </div>
         `
     }
+    selectRoutBtnHandler(document.querySelectorAll('.select-rout-btn'))
+
 }
 
 const renderGuidesTable = (guides)=>{
@@ -160,6 +170,7 @@ const renderGuidesTable = (guides)=>{
             </div>
         `
     }
+    selectGuideBtnHandler(document.querySelectorAll('.select-guide-btn'))
 }
 
 
@@ -250,33 +261,47 @@ const showModal = ()=>{
 
     document.querySelector('#calc').addEventListener('click', ()=>{
         const guidePrice = localStorage.getItem('selectedGuidePrice')
-        const date = document.querySelector('#date').value
-        const numberOfVisitors = document.querySelector('#groupSize').value
-        const startTime = document.querySelector('#time').value
+        let date = document.querySelector('#date').value
+        let numberOfVisitors = document.querySelector('#groupSize').value
+        let startTime = document.querySelector('#time').value
         const hours = document.querySelector('#duration').value
         const option1 = document.querySelector('#option1').checked 
         const option2 = document.querySelector('#option2').checked 
 
-        const totalPrice = calcPrice(guidePrice,hours,numberOfVisitors,startTime,date, option1 , option2)
-
-        document.querySelector('#totalCost').value=totalPrice
+       
         
         if(parseInt(startTime.split(':')[0], 10) <9 ||parseInt(startTime.split(':')[0]<23 )){
             alert("Время с 9 до 23")
             document.querySelector('#time').value = ''
+            startTime=''
+            document.querySelector('#totalCost').value=''
         }
-        console.log(new Date(date).getDate())
-        console.log(new Date().getDate())
         if(new Date().getDate() == new Date(date).getDate()){
             alerе('Выберите следующую дату!')
             document.querySelector('#date').value = ''
+            date=''
+            document.querySelector('#totalCost').value=''
         }
+
+        if(+numberOfVisitors<=0 || +numberOfVisitors> 20){
+            alert('Некорректный размер группы!')
+            document.querySelector('#groupSize').value = ''
+            numberOfVisitors=''
+            document.querySelector('#totalCost').value = ''
+        }
+
+
+        const totalPrice = calcPrice(guidePrice,hours,numberOfVisitors,startTime,date, option1 , option2)
+
 
         if(guidePrice&&date&& numberOfVisitors&& startTime&&hours && totalPrice){
             document.querySelector('#send').disabled = false
+
+            document.querySelector('#totalCost').value=totalPrice
         }else{
             alert('Заполнены не все поля!')
         }
+  
 
         document.querySelector('#send').addEventListener('click', ()=>{
             var details = {
@@ -326,7 +351,11 @@ const showSelectedRout = (id)=>{
     })
     showGuideInfo()
 
-    document.getElementById(`${id}`).classList.add('bg-body-tertiary')
+    try{
+        document.getElementById(`${id}`).classList.add('bg-body-tertiary')
+    }catch{
+        console.log('в данный момент выбранный маршрут на другой странице')
+    }
 
 }
 
@@ -393,13 +422,15 @@ function increaseInNumbersOfVisitors(numberOfVisitors){
 
 
 nextRoutesPageBtn.addEventListener('click', (e)=>{
-        currentPage+=3
+        currentPage= Number(currentPage)+3
         routesTableEl.innerHTML= ''
+        localStorage.setItem('currentPage', +currentPage)
         main(currentPage)
 })
 previousRoutesPageBtn.addEventListener('click', ()=>{
-        currentPage-=3
+        currentPage = Number(currentPage)-3
         routesTableEl.innerHTML= ''
+        localStorage.setItem('currentPage', +currentPage)    
         main(currentPage)
 })
 closeModalBtn.addEventListener('click',()=>{
