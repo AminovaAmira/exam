@@ -131,8 +131,8 @@ const renderTableWithPagination = (routes, page)=>{
         routesTableEl.innerHTML+=`
         <div id='rout_${routes[i].id}' class="row border  ">
             <div class="col border d-flex align-items-center justify-content-center"><p class=" p-0 text-center fs-5">${routes[i].name}</></div>
-            <div class="col border d-flex align-items-center justify-content-center"><p class="  text-center fs-5" title="${routes[i].description}">${routes[i].description}</></div>
-            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5" title="${routes[i].mainObject}">${routes[i].mainObject}</></div>
+            <div class="col border d-flex align-items-center justify-content-center"><p class="  text-center fs-5" title="${routes[i].description}">${routes[i].description.slice(0,200)}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5" title="${routes[i].mainObject}">${routes[i].mainObject.slice(0,100)}</></div>
             <div class="col border d-flex align-items-center justify-content-center "><button class="btn btn-secondary select-rout-btn" >Выбрать</button></div>
             </div>
         `
@@ -147,8 +147,8 @@ const renderRoutTable = (routes)=>{
         routesTableEl.innerHTML+=`
         <div id='rout_${routes[i].id}' class="row border  ">
             <div class="col border d-flex align-items-center justify-content-center"><p class=" p-0 text-center fs-5">${routes[i].name}</></div>
-            <div class="col border d-flex align-items-center justify-content-center"><p class=" text-center fs-5"title="${routes[i].description}">${routes[i].description}</></div>
-            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5" title="${routes[i].mainObject}">${routes[i].mainObject}</></div>
+            <div class="col border d-flex align-items-center justify-content-center"><p class=" text-center fs-5"title="${routes[i].description}">${routes[i].description.slice(0,200)}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5" title="${routes[i].mainObject}">${routes[i].mainObject.slice(0,100)}</></div>
             <div class="col border d-flex align-items-center justify-content-center "><button class="btn btn-secondary select-rout-btn" >Выбрать</button></div>
             </div>
         `
