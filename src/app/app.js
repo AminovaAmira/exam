@@ -109,6 +109,9 @@ const showGuideInfo = async ()=>{
 }
     
 
+
+
+
 const paginationButtunHandler = (routes)=>{
     if(currentPage===0){
         previousRoutesPageBtn.classList.add('disabled')
@@ -118,6 +121,56 @@ const paginationButtunHandler = (routes)=>{
     if(currentPage ===routes.length){
         nextRoutesPageBtn.classList.add('disabled')
     }
+} 
+
+const renderTableWithPagination = (routes, page)=>{
+    routesTableEl.innerHTML= ''
+    console.log(page)
+    for(let i=+page ; i<+page+3 ; i++){
+        console.log(page)
+        routesTableEl.innerHTML+=`
+        <div id='rout_${routes[i].id}' class="row border  ">
+            <div class="col border d-flex align-items-center justify-content-center"><p class=" p-0 text-center fs-5">${routes[i].name}</></div>
+            <div class="col border d-flex align-items-center justify-content-center"><p class="  text-center fs-5" title="${routes[i].description}">${routes[i].description}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5" title="${routes[i].mainObject}">${routes[i].mainObject}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><button class="btn btn-secondary select-rout-btn" >Выбрать</button></div>
+            </div>
+        `
+    }
+    selectRoutBtnHandler(document.querySelectorAll('.select-rout-btn'))
+
+}
+const renderRoutTable = (routes)=>{
+   
+    routesTableEl.innerHTML= ''
+    for(let i=0 ; i<routes.length ; i++){
+        routesTableEl.innerHTML+=`
+        <div id='rout_${routes[i].id}' class="row border  ">
+            <div class="col border d-flex align-items-center justify-content-center"><p class=" p-0 text-center fs-5">${routes[i].name}</></div>
+            <div class="col border d-flex align-items-center justify-content-center"><p class=" text-center fs-5"title="${routes[i].description}">${routes[i].description}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5" title="${routes[i].mainObject}">${routes[i].mainObject}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><button class="btn btn-secondary select-rout-btn" >Выбрать</button></div>
+            </div>
+        `
+    }
+    selectRoutBtnHandler(document.querySelectorAll('.select-rout-btn'))
+
+}
+
+const renderGuidesTable = (guides)=>{
+    guideTableEl.innerHTML= ''
+    for(let i=0 ; i<guides.length ; i++){
+        guideTableEl.innerHTML+=`
+        <div id='guide_${guides[i].id}' class="row border  ">
+            <div class="col border d-flex align-items-center justify-content-center"><p class=" p-0 text-center fs-5">${guides[i].name}</></div>
+            <div class="col border d-flex align-items-center justify-content-center"><p class=" text-center fs-5">${guides[i].language}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5">${guides[i].workExperience}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><p class=" text-center fs-5">${guides[i].pricePerHour}</></div>
+            <div class="col border d-flex align-items-center justify-content-center "><button class="btn btn-secondary select-guide-btn" >Выбрать</button></div>
+            </div>
+        `
+    }
+    selectGuideBtnHandler(document.querySelectorAll('.select-guide-btn'))
 }
 
 const findRoutsByName = (routes , name)=>{
